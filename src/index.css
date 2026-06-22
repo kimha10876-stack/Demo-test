@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Color Tokens ── */
+  --color-primary: #1e73be;
+  --color-primary-dark: #004c6e;
+  --color-primary-darker: #003767;
+  --color-primary-darkest: #001e2f;
+  --color-teal: #5cb1cc;
+  --color-warm-bg: #fbf9f8;
+  --color-light-bg: #f7f9fb;
+  --color-accent-bg: #f7f4ea;
+  --color-light-blue: #d2e3f2;
+  --color-card-dark: #2e312d;
+  --color-dark: #1b1c1c;
+  --color-dark-alt: #191c1e;
+  --color-muted: #45464d;
+  --color-muted-text: rgba(25, 28, 30, 0.6);
+  --color-border: rgba(118, 119, 125, 0.2);
+
+  /* ── Font Families ── */
+  --font-jakarta: "Plus Jakarta Sans", sans-serif;
+  --font-hanken: "Hanken Grotesk", sans-serif;
+  --font-geist: "Geist", sans-serif;
+  --font-lora: "Lora", serif;
+  --font-inter: "Inter", sans-serif;
+
+  /* ── Spacing ── */
+  --spacing-section: 5rem;
+  --spacing-container: 1.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-hanken);
+    background-color: #fff;
+    color: #1b1c1c;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .btn-hover {
+    transition:
+      transform 220ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      box-shadow 220ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      filter 220ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      background-color 220ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      color 220ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      border-color 220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    will-change: transform;
+  }
+
+  .btn-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px -18px rgba(8, 20, 48, 0.55);
+    filter: saturate(1.05);
+  }
+
+  .btn-hover:active {
+    transform: translateY(0) scale(0.98);
+  }
+}

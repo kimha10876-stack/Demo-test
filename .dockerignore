@@ -1,0 +1,17 @@
+# Loại bỏ các folder/file không cần thiết gửi lên Docker context
+node_modules
+npm-debug.log
+build
+dist
+.git
+.gitignore
+.DS_Store
+README.md
+Dockerfile
+nginx.conf
+.dockerignore
+.vscode
+.idea
+eslint.config.js
+tsconfig*.json
+vite.config.ts
