@@ -1,37 +1,29 @@
-# ==========================================
-# Stage 1: Build ứng dụng React với Node.js
-# ==========================================
-FROM node:22-alpine AS builder
+# Stage 1: Build the React application
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy các file cấu hình package trước để tối ưu hóa Docker Cache
+# Copy package files and install dependencies
 COPY package*.json ./
-
-# Cài đặt toàn bộ dependencies (bao gồm devDependencies để build tsx/vite)
-# Sử dụng 'npm ci' để đảm bảo tính nhất quán và tốc độ tối ưu hơn 'npm install'
 RUN npm ci
 
-# Copy toàn bộ mã nguồn vào container
+# Copy the rest of the project files
 COPY . .
 
-# Tiến hành build ứng dụng ra thư mục /app/dist
+# Build the project
 RUN npm run build
 
-# ==========================================
-# Stage 2: Chạy production server siêu nhẹ với Nginx
-# ==========================================
-# Sử dụng phiên bản alpine-slim để giảm dung lượng file ảnh xuống tối thiểu (~20MB)
-FROM nginx:stable-alpine-slim
+# Stage 2: Serve the application using Nginx
+FROM nginx:stable-alpine
 
-# Copy cấu hình Nginx tối ưu cho SPA và Cache
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy toàn bộ file đã build từ Stage 1 sang thư mục root của Nginx
+# Copy built assets from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Mở cổng 80 cho container
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
 EXPOSE 80
 
-# Chạy Nginx ở chế độ background-off (foreground) để docker container hoạt động liên tục
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
